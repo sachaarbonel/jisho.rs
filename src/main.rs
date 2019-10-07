@@ -65,7 +65,6 @@ fn search(index_directory: &Path, query: &str) -> Vec<String> {
 
     let query = query_parser.parse_query(query).unwrap();
 
-    //let top_docs = ?;
     let mut result: Vec<String> = Vec::new();
     for (_, doc_address) in searcher.search(&query, &TopDocs::with_limit(10)).unwrap() {
         let retrieved_doc = searcher.doc(doc_address).unwrap();
@@ -73,8 +72,6 @@ fn search(index_directory: &Path, query: &str) -> Vec<String> {
         result.push(String::from(schema.to_json(&retrieved_doc)));
     }
     result
-
-    //  Ok(())
 }
 
 fn main() {
