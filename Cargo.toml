@@ -9,3 +9,6 @@ edition = "2018"
 [dependencies]
 tantivy = "0.10.2"
 tantivy-tokenizer-tiny-segmenter = { git = "https://github.com/Sach97/tantivy-tokenizer-tiny-segmenter", branch = "bump" }
+
+[lib]
+crate-type = ["cdylib"]
