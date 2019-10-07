@@ -1,24 +1,13 @@
-// # Defining a tokenizer pipeline
-//
-// In this example, we'll see how to define a tokenizer pipeline
-// by aligning a bunch of `TokenFilter`.
+use std::path::Path;
 use tantivy::collector::TopDocs;
 use tantivy::query::QueryParser;
 use tantivy::schema::*;
 use tantivy::{doc, Index};
 use tantivy_tokenizer_tiny_segmenter::tokenizer::TinySegmenterTokenizer;
-fn main() -> tantivy::Result<()> {
-    // # Defining the schema
-    //
-    // The Tantivy index requires a very strict schema.
-    // The schema declares which fields are in the index,
-    // and for each field, its type and "the way it should
-    // be indexed".
 
-    // first we need to define a schema ...
+fn index(index_directory: &Path) {
     let mut schema_builder = Schema::builder();
 
-    // Create a new field `body` using TinySegmenter as the tokenizer.
     let text_field_indexing = TextFieldIndexing::default()
         .set_tokenizer("tinyseg")
         .set_index_option(IndexRecordOption::WithFreqsAndPositions);
@@ -28,28 +17,11 @@ fn main() -> tantivy::Result<()> {
     let body = schema_builder.add_text_field("body", text_options);
 
     let schema = schema_builder.build();
-
-    // # Indexing documents
-    //
-    // Let's create a brand new index.
-    // To simplify we will work entirely in RAM.
-    // This is not what you want in reality, but it is very useful
-    // for your unit tests... Or this example.
-    let index = Index::create_in_ram(schema.clone());
-
-    // Register TinySegmenterTokenizer as "tinyseg".
+    let index = Index::create_in_dir(index_directory, schema.clone()).unwrap();
     index
         .tokenizers()
         .register("tinyseg", TinySegmenterTokenizer {});
-
-    // To insert document we need an index writer.
-    // There must be only one writer at a time.
-    // This single `IndexWriter` is already
-    // multithreaded.
-    //
-    // Here we use a buffer of 50MB per thread. Using a bigger
-    // heap for the indexer can increase its throughput.
-    let mut index_writer = index.writer(50_000_000)?;
+    let mut index_writer = index.writer(50_000_000).unwrap();
     index_writer.add_document(doc!(
         body => "日本語の本文",
     ));
@@ -70,26 +42,45 @@ fn main() -> tantivy::Result<()> {
                    のみならず顔の真中があまりに突起している。そうしてその穴の中から時々ぷうぷうと煙を吹く。
                    どうも咽せぽくて実に弱った。これが人間の飲む煙草というものである事はようやくこの頃知った。"#,
     ));
-    index_writer.commit()?;
+    index_writer.commit().unwrap();
+}
 
-    let reader = index.reader()?;
+fn search(index_directory: &Path, query: &str) -> Vec<String> {
+    let index = Index::open_in_dir(index_directory).unwrap();
+    index
+        .tokenizers()
+        .register("tinyseg", TinySegmenterTokenizer {});
+    let schema = index.schema();
+
+    let reader = index.reader().unwrap();
     let searcher = reader.searcher();
 
-    // The query parser can interpret human queries.
-    // Here, if the user does not specify which
-    // field they want to search, tantivy will search
-    // in both title and body.
-    let query_parser = QueryParser::for_index(&index, vec![body]);
+    let default_fields: Vec<Field> = schema
+        .fields()
+        .iter()
+        .enumerate()
+        .map(|(i, _)| Field(i as u32))
+        .collect();
+    let query_parser = QueryParser::new(schema.clone(), default_fields, index.tokenizers().clone());
 
-    // Search for "人間", which is contained in the 2nd and 3rd document.
-    let query = query_parser.parse_query("人間")?;
+    let query = query_parser.parse_query(query).unwrap();
 
-    let top_docs = searcher.search(&query, &TopDocs::with_limit(10))?;
-
-    for (_, doc_address) in top_docs {
-        let retrieved_doc = searcher.doc(doc_address)?;
-        println!("{}", schema.to_json(&retrieved_doc));
+    //let top_docs = ?;
+    let mut result: Vec<String> = Vec::new();
+    for (_, doc_address) in searcher.search(&query, &TopDocs::with_limit(10)).unwrap() {
+        let retrieved_doc = searcher.doc(doc_address).unwrap();
+        // println!("{}", schema.to_json(&retrieved_doc));
+        result.push(String::from(schema.to_json(&retrieved_doc)));
     }
+    result
 
-    Ok(())
+    //  Ok(())
+}
+
+fn main() {
+    //-> tantivy::Result<()> {
+    let directory = Path::new("./index");
+    // let docstamp = index(&directory).unwrap();
+    // println!("Commit succeed, docstamp at {}", docstamp);
+    println!("{:?}", search(&directory, "人間"))
 }
