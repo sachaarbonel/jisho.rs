@@ -5,7 +5,7 @@ use tantivy::schema::*;
 use tantivy::{doc, Index};
 use tantivy_tokenizer_tiny_segmenter::tokenizer::TinySegmenterTokenizer;
 
-fn index_document(index_directory: &Path) {
+pub fn index_document(index_directory: &Path) {
     let mut schema_builder = Schema::builder();
 
     let text_field_indexing = TextFieldIndexing::default()

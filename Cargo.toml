@@ -12,3 +12,7 @@ tantivy-tokenizer-tiny-segmenter = { git = "https://github.com/Sach97/tantivy-to
 
 [lib]
 crate-type = ["cdylib"]
+
+[[bin]]
+name = "jisho"
+path = "src/bin.rs"
