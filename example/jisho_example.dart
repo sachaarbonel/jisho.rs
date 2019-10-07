@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 
 typedef NativeRustPlayOnceFunction = ffi.Void Function(
-    ffi.Pointer<Utf8>); //ffi.Pointer<ffi.Pointer<Utf8>>
+    ffi.Pointer<Utf8>, ffi.Pointer<Utf8>); //ffi.Pointer<ffi.Pointer<Utf8>>
 typedef NativePlayOnceFunction = void Function();
 
 main() {
@@ -12,5 +12,6 @@ main() {
       dl.lookupFunction<NativeRustPlayOnceFunction, NativeRustPlayOnceFunction>(
           "search");
   final Pointer<Utf8> index = Utf8.toUtf8("./index").cast();
-  search(index);
+  final Pointer<Utf8> query = Utf8.toUtf8("人間").cast();
+  search(index, query);
 }
