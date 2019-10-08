@@ -407,7 +407,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "jisho"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "tantivy 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "tantivy-tokenizer-tiny-segmenter 0.1.1 (git+https://github.com/Sach97/tantivy-tokenizer-tiny-segmenter?branch=bump)",
