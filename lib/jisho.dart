@@ -1,8 +1,13 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
-library jisho;
+import 'dart:async';
 
-export 'src/jisho_base.dart';
+import 'package:flutter/services.dart';
 
-// TODO: Export any libraries intended for clients of this package.
+class Jisho {
+  static const MethodChannel _channel =
+      const MethodChannel('jisho');
+
+  static Future<String> get platformVersion async {
+    final String version = await _channel.invokeMethod('getPlatformVersion');
+    return version;
+  }
+}

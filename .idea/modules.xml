@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/jisho.iml" filepath="$PROJECT_DIR$/jisho.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/jisho_android.iml" filepath="$PROJECT_DIR$/android/jisho_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/android/jisho_example_android.iml" filepath="$PROJECT_DIR$/example/android/jisho_example_android.iml" />
+    </modules>
+  </component>
+</project>

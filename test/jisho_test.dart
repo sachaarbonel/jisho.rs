@@ -1,16 +1,23 @@
+import 'package:flutter/services.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:jisho/jisho.dart';
-import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
-    Awesome awesome;
+  const MethodChannel channel = MethodChannel('jisho');
 
-    setUp(() {
-      awesome = Awesome();
-    });
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    test('First Test', () {
-      expect(awesome.isAwesome, isTrue);
+  setUp(() {
+    channel.setMockMethodCallHandler((MethodCall methodCall) async {
+      return '42';
     });
+  });
+
+  tearDown(() {
+    channel.setMockMethodCallHandler(null);
+  });
+
+  test('getPlatformVersion', () async {
+    expect(await Jisho.platformVersion, '42');
   });
 }
