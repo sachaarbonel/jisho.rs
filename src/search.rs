@@ -45,7 +45,7 @@ pub fn index_document(index_directory: &Path) {
     index_writer.commit().unwrap();
 }
 
-pub fn search_document(index_directory: &Path, query: &str) -> Vec<String> {
+pub fn search_document(index_directory: &Path, query: &str) -> String {
     let index = Index::open_in_dir(index_directory).unwrap();
     index
         .tokenizers()
@@ -65,11 +65,11 @@ pub fn search_document(index_directory: &Path, query: &str) -> Vec<String> {
 
     let query = query_parser.parse_query(query).unwrap();
 
-    let mut result: Vec<String> = Vec::new();
+    let mut docs = Vec::new();
     for (_, doc_address) in searcher.search(&query, &TopDocs::with_limit(10)).unwrap() {
         let retrieved_doc = searcher.doc(doc_address).unwrap();
         // println!("{}", schema.to_json(&retrieved_doc));
-        result.push(schema.to_json(&retrieved_doc));
+        docs.push(schema.to_json(&retrieved_doc));
     }
-    result
+    format!("[{}]", docs.join(","))
 }
