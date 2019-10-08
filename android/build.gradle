@@ -6,11 +6,15 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'gradle.plugin.org.mozilla.rust-android-gradle:plugin:0.8.3'
     }
 }
 
@@ -23,6 +27,7 @@ rootProject.allprojects {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'org.mozilla.rust-android-gradle.rust-android'
 
 android {
     compileSdkVersion 28
@@ -39,6 +44,14 @@ android {
     }
 }
 
+cargo {
+    module  = "../"       // Or whatever directory contains your Cargo.toml
+    libname = "jisho"          // Or whatever matches Cargo.toml's [package] name.
+    targets = ["arm", "x86"]  // See bellow for a longer list of options
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
+preBuild.dependsOn "cargoBuild"
