@@ -7,3 +7,8 @@ String search({String index, String query}) {
   final ffi.Pointer<Utf8> q = Utf8.toUtf8(query).cast();
   return Utf8.fromUtf8(bd.Search(idx, q));
 }
+
+String search_im({String query}) {
+  final ffi.Pointer<Utf8> q = Utf8.toUtf8(query).cast();
+  return Utf8.fromUtf8(bd.Search_Im(q));
+}
