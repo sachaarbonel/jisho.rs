@@ -31,11 +31,35 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - packages/jisho/assets/poem.txt
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.fieldnorm
+    - packages/jisho/index/.tantivy-meta.lock
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.posidx
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.pos
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.fast
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.fast
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.pos
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.idx
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.term
+    - packages/jisho/index/.managed.json
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.store
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.posidx
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.fieldnorm
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.idx
+    - packages/jisho/index/meta.json
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.store
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.term
+    - packages/jisho/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.fieldnorm
+    - packages/jisho/index/.tantivy-writer.lock
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.term
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.posidx
+    - packages/jisho/index/84f0f68190f249ba825ddac8fcff2547.pos
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.idx
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.fast
+    - packages/jisho/index/080d0121166f4c8e98bf4fb0d90b272f.store
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
+  # https://flutter.dev-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
-  # https://flutter.dev/assets-and-images/#from-packages
+  # https://flutter.dev-and-images/#from-packages
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

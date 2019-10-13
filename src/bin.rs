@@ -21,9 +21,9 @@ fn list_files_in_dir(filename: &str) -> String {
     let results = paths
         .map(|path| dbg!(dbg!(path).unwrap().path().into_os_string().into_string()).unwrap())
         .collect::<Vec<String>>();
-    results.join(",")
+    results.join("\n")
 }
 
 fn main() {
-    println!("{}", list_files_in_dir("./"));
+    println!("{}", list_files_in_dir("./lib/assets/index"));
 }
