@@ -1,9 +1,30 @@
+use std::fs;
+use std::fs::File;
+use std::io::Read;
 use std::path::Path;
 use tantivy::collector::TopDocs;
 use tantivy::query::QueryParser;
 use tantivy::schema::*;
 use tantivy::{doc, Index};
 use tantivy_tokenizer_tiny_segmenter::tokenizer::TinySegmenterTokenizer;
+
+pub fn read_file(filename: &str) -> String {
+    let path = Path::new(filename);
+    let mut file = File::open(&path).unwrap();
+    let mut buffer = String::new();
+    file.read_to_string(&mut buffer).unwrap();
+    buffer
+}
+
+pub fn list_files_in_dir(filename: &str) -> String {
+    let path = Path::new(filename);
+    let paths = dbg!(fs::read_dir(path)).unwrap();
+
+    let results = paths
+        .map(|path| dbg!(dbg!(path).unwrap().path().into_os_string().into_string()).unwrap())
+        .collect::<Vec<String>>();
+    results.join(",")
+}
 
 pub fn index_document(index_directory: &Path) {
     let mut schema_builder = Schema::builder();

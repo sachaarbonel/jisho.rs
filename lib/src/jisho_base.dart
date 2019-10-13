@@ -12,3 +12,13 @@ String search_im({String query}) {
   final ffi.Pointer<Utf8> q = Utf8.toUtf8(query).cast();
   return Utf8.fromUtf8(bd.Search_Im(q));
 }
+
+String read_file(String filename) {
+  final ffi.Pointer<Utf8> file = Utf8.toUtf8(filename).cast();
+  return Utf8.fromUtf8(bd.Readfile(file));
+}
+
+String list_files_in_dir(String filename) {
+  final ffi.Pointer<Utf8> file = Utf8.toUtf8(filename).cast();
+  return Utf8.fromUtf8(bd.ListFiles(file));
+}

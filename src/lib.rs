@@ -18,6 +18,26 @@ pub extern "C" fn search(index_ptr: *const c_char, query_ptr: *const c_char) -> 
 }
 
 #[no_mangle]
+pub extern "C" fn read_file(filename_ptr: *const c_char) -> *const c_char {
+    let filenamestr = unsafe { CStr::from_ptr(filename_ptr) };
+    let v = search::read_file(filenamestr.to_str().unwrap());
+    let s = CString::new(v).unwrap();
+    let p = s.as_ptr();
+    std::mem::forget(s);
+    p
+}
+
+#[no_mangle]
+pub extern "C" fn list_files_in_dir(filename_ptr: *const c_char) -> *const c_char {
+    let filenamestr = unsafe { CStr::from_ptr(filename_ptr) };
+    let v = search::list_files_in_dir(filenamestr.to_str().unwrap());
+    let s = CString::new(v).unwrap();
+    let p = s.as_ptr();
+    std::mem::forget(s);
+    p
+}
+
+#[no_mangle]
 pub extern "C" fn search_im(query_ptr: *const c_char) -> *const c_char {
     let querystr = unsafe { CStr::from_ptr(query_ptr) };
     let query = querystr.to_str().unwrap();

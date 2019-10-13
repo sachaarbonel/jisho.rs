@@ -10,4 +10,6 @@ typedef NativeSearchFunction = ffi.Pointer<Utf8> Function(
 typedef NativeRustSearchImFunction = ffi.Pointer<Utf8> Function(
     ffi.Pointer<Utf8>);
 
+typedef NativeRustReadfileFunction = ffi.Pointer<Utf8> Function(
+    ffi.Pointer<Utf8>);
 typedef NativeSearchImFunction = ffi.Pointer<Utf8> Function(ffi.Pointer<Utf8>);
