@@ -7,34 +7,30 @@ import 'dart:async' show Completer, Future;
 import 'package:flutter/services.dart' show ByteData, rootBundle;
 import 'package:path_provider/path_provider.dart';
 
-Future<List<FileSystemEntity>> dirContents(Directory dir) {
-  var files = <FileSystemEntity>[];
+Future<String> loadFile(String filename,
+    {String directory, String package}) async {
+  var bytes = await rootBundle.load("packages/$package/$directory/$filename");
+  String currentPath = (await getApplicationDocumentsDirectory()).path;
+  await _writeToFile(bytes,
+      path: currentPath,
+      filename: filename,
+      directory: directory,
+      package: package);
+  return currentPath;
+}
+
+Future<void> _writeToFile(ByteData data,
+    {String path, String filename, String directory, String package}) {
   var completer = Completer();
-  var lister = dir.list(recursive: false);
-  lister.listen((file) => files.add(file),
-      // should also register onError
-      onDone: () => completer.complete(files));
+  final buffer = data.buffer;
+  Directory('$path/$package/$directory').create(recursive: true).then(
+      (Directory dir) => completer.complete(File("${dir.path}/$filename")
+          .writeAsBytes(
+              buffer.asUint8List(data.offsetInBytes, data.lengthInBytes))));
   return completer.future;
 }
 
-Future<String> loadPath() async {
-  var filename = "poem.txt";
-  var bytes = await rootBundle.load("packages/jisho/assets/$filename");
-  String dir = (await getApplicationDocumentsDirectory()).path;
-  await writeToFile(bytes, '$dir/$filename');
-  return dir;
-}
-
-Future<void> writeToFile(ByteData data, String path) {
-  final buffer = data.buffer;
-  return File(path)
-      .writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
-}
-
 void main() {
-  // print(
-  //     "${read_file("/data/user/0/com.example.jisho_example/app_flutter/poem.txt")}");
-  //print("${search_im(query: "人間")}");
   runApp(MyApp());
 }
 
@@ -48,16 +44,14 @@ class MyApp extends StatelessWidget {
           title: Text('Welcome to Flutter'),
         ),
         body: Center(
-          //    child: Text(
-          // "${read_file("/data/user/0/com.example.jisho_example/app_flutter/poem.txt")}"),
           child: FutureBuilder<String>(
-            future: loadPath(), // a previously-obtained Future<String> or null
+            // future: dirContents(),
+            future: loadFile("poem.txt", package: "jisho", directory: "assets"),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              //print(snapshot.data);
+              var result = snapshot.data;
+
               return snapshot.hasData
-                  ? Text(
-                      "${read_file("/data/user/0/com.example.jisho_example/app_flutter/poem.txt")}")
-                  //  ? Text(snapshot.data)
+                  ? Text("${read_file("$result/jisho/assets/poem.txt")}")
                   : CircularProgressIndicator();
             },
           ), //${search(index: "./index", query: "人間")}
