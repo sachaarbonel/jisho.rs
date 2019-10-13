@@ -29,8 +29,8 @@ flutter:
     androidPackage: com.example.jisho
     pluginClass: JishoPlugin
   # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #   - lib/assets/index/
+  assets:
+    - lib/assets/poem.txt
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages
