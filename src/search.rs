@@ -1,3 +1,6 @@
+use std::fs;
+use std::fs::File;
+use std::io::Read;
 use std::path::Path;
 use tantivy::collector::TopDocs;
 use tantivy::query::QueryParser;
@@ -5,7 +8,7 @@ use tantivy::schema::*;
 use tantivy::{doc, Index};
 use tantivy_tokenizer_tiny_segmenter::tokenizer::TinySegmenterTokenizer;
 
-fn index(index_directory: &Path) {
+pub fn index_document(index_directory: &Path) {
     let mut schema_builder = Schema::builder();
 
     let text_field_indexing = TextFieldIndexing::default()
@@ -45,7 +48,7 @@ fn index(index_directory: &Path) {
     index_writer.commit().unwrap();
 }
 
-fn search(index_directory: &Path, query: &str) -> Vec<String> {
+pub fn search_document(index_directory: &Path, query: &str) -> String {
     let index = Index::open_in_dir(index_directory).unwrap();
     index
         .tokenizers()
@@ -65,19 +68,11 @@ fn search(index_directory: &Path, query: &str) -> Vec<String> {
 
     let query = query_parser.parse_query(query).unwrap();
 
-    let mut result: Vec<String> = Vec::new();
+    let mut docs = Vec::new();
     for (_, doc_address) in searcher.search(&query, &TopDocs::with_limit(10)).unwrap() {
         let retrieved_doc = searcher.doc(doc_address).unwrap();
         // println!("{}", schema.to_json(&retrieved_doc));
-        result.push(String::from(schema.to_json(&retrieved_doc)));
+        docs.push(schema.to_json(&retrieved_doc));
     }
-    result
-}
-
-fn main() {
-    //-> tantivy::Result<()> {
-    let directory = Path::new("./index");
-    // let docstamp = index(&directory).unwrap();
-    // println!("Commit succeed, docstamp at {}", docstamp);
-    println!("{:?}", search(&directory, "人間"))
+    format!("[{}]", docs.join(","))
 }

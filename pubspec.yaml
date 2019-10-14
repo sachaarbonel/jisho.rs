@@ -1,0 +1,49 @@
+name: jisho
+description: A new flutter plugin project.
+version: 0.0.1
+author:
+homepage:
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ffi: ^0.1.1
+  path_provider: ^1.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    androidPackage: com.example.jisho
+    pluginClass: JishoPlugin
+  assets:
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.fieldnorm
+    - lib/index/.tantivy-meta.lock
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.posidx
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.pos
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.fast
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.fast
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.pos
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.idx
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.term
+    - lib/index/.managed.json
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.store
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.posidx
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.fieldnorm
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.idx
+    - lib/index/meta.json
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.store
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.term
+    - lib/index/1c2b8aa1fb5b4ede95f3df7d70f8db2c.fieldnorm
+    - lib/index/.tantivy-writer.lock
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.term
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.posidx
+    - lib/index/84f0f68190f249ba825ddac8fcff2547.pos
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.idx
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.fast
+    - lib/index/080d0121166f4c8e98bf4fb0d90b272f.store
