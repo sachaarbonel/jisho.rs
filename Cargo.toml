@@ -12,7 +12,7 @@ tantivy-tokenizer-tiny-segmenter = { git = "https://github.com/Sach97/tantivy-to
 
 [lib]
 name = "jisho"
-crate-type = ["dylib"] 
+crate-type = ["dylib","staticlib"] 
 # Android: dylib
 # iOS: cdylib [armv7s-apple-ios] and staticlib [Others]
 # WASM: cdylib
